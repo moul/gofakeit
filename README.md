@@ -18,7 +18,7 @@ If there is something that is generic enough missing from this package [add an i
 Most of the time i'll add it!
 
 ## Documentation
-[![GoDoc](https://godoc.org/github.com/brianvoe/gofakeit?status.svg)](https://godoc.org/github.com/brianvoe/gofakeit)
+[![GoDoc](https://godoc.org/github.com/brianvoe/gofakeit?status.svg)](https://godoc.org/github.com/brianvoe/gofakeit) [![GuardRails badge](https://badges.production.guardrails.io/moul/gofakeit.svg)](https://www.guardrails.io)
 
 ## Example
 ```go
