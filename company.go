@@ -1,5 +1,7 @@
 package gofakeit
 
+import "strings"
+
 // Company will generate a random company name string
 func Company() string { return company(GlobalFaker) }
 
@@ -94,19 +96,20 @@ func (f *Faker) Slogan() string { return slogan(f) }
 
 // Slogan will generate a random company slogan
 func slogan(f *Faker) string {
-	slogan := ""
-	var sloganStyle = number(f, 0, 2)
-	switch sloganStyle {
-	// Noun. Buzzword!
-	case 0:
-		slogan = getRandValue(f, []string{"company", "blurb"}) + ". " + getRandValue(f, []string{"company", "buzzwords"}) + "!"
-	// Buzzword Noun, Buzzword Noun.
-	case 1:
-		slogan = getRandValue(f, []string{"company", "buzzwords"}) + " " + getRandValue(f, []string{"company", "blurb"}) + ", " + getRandValue(f, []string{"company", "buzzwords"}) + " " + getRandValue(f, []string{"company", "blurb"}) + "."
-	// Buzzword bs Noun, Buzzword.
-	case 2:
-		slogan = getRandValue(f, []string{"company", "buzzwords"}) + " " + getRandValue(f, []string{"company", "bs"}) + " " + getRandValue(f, []string{"company", "blurb"}) + ", " + getRandValue(f, []string{"company", "buzzwords"}) + "."
+	// Pick a mad-libs style template and fill the {tokens} with random words.
+	// The templates vary in structure and length to produce slogan-like phrases
+	// rather than a fixed sentence shape.
+	slogan, err := generate(f, getRandValue(f, []string{"company", "slogan"}))
+	if err != nil {
+		return ""
 	}
+
+	// Slogans read as a heading, so make sure the first letter is capitalized
+	// regardless of the casing of the word that filled the leading token.
+	if slogan != "" {
+		slogan = strings.ToUpper(slogan[:1]) + slogan[1:]
+	}
+
 	return slogan
 }
 
@@ -337,7 +340,7 @@ func addCompanyLookup() {
 		Display:     "Slogan",
 		Category:    "company",
 		Description: "Catchphrase or motto used by a company to represent its brand or values",
-		Example:     "Universal seamless Focus, interactive.",
+		Example:     "Bifurcated Passion you can trust.",
 		Output:      "string",
 		Aliases: []string{
 			"company slogan",

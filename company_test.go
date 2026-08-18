@@ -2,6 +2,7 @@ package gofakeit
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -208,14 +209,35 @@ func ExampleSlogan() {
 	Seed(11)
 	fmt.Println(Slogan())
 
-	// Output: local area network maximize Drive, mission-critical.
+	// Output: Delivering local area network Dreams since day one.
 }
 
 func ExampleFaker_Slogan() {
 	f := New(11)
 	fmt.Println(f.Slogan())
 
-	// Output: local area network maximize Drive, mission-critical.
+	// Output: Delivering local area network Dreams since day one.
+}
+
+func TestSlogan(t *testing.T) {
+	f := New(0)
+	for i := 0; i < 1000; i++ {
+		slogan := f.Slogan()
+
+		if slogan == "" {
+			t.Fatal("Slogan returned an empty string")
+		}
+
+		// Every template token should have been replaced by Generate
+		if strings.ContainsAny(slogan, "{}") {
+			t.Fatalf("Slogan has an unresolved template token: %q", slogan)
+		}
+
+		// Slogans read as a heading, so the first letter must be uppercase
+		if first := rune(slogan[0]); first >= 'a' && first <= 'z' {
+			t.Fatalf("Slogan does not start with an uppercase letter: %q", slogan)
+		}
+	}
 }
 
 func BenchmarkSlogan(b *testing.B) {
