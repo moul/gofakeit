@@ -209,14 +209,14 @@ func ExampleSlogan() {
 	Seed(11)
 	fmt.Println(Slogan())
 
-	// Output: Delivering local area network Dreams since day one.
+	// Output: Style in motion.
 }
 
 func ExampleFaker_Slogan() {
 	f := New(11)
 	fmt.Println(f.Slogan())
 
-	// Output: Delivering local area network Dreams since day one.
+	// Output: Style in motion.
 }
 
 func TestSlogan(t *testing.T) {

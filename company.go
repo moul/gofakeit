@@ -104,13 +104,27 @@ func slogan(f *Faker) string {
 		return ""
 	}
 
-	// Slogans read as a heading, so make sure the first letter is capitalized
-	// regardless of the casing of the word that filled the leading token.
-	if slogan != "" {
-		slogan = strings.ToUpper(slogan[:1]) + slogan[1:]
+	// The {buzzword} and {blurb} word lists are capitalized, so filling them
+	// mid template leaves stray capitals that throw the reading off. Lower the
+	// whole slogan, then capitalize the first letter of each sentence so it
+	// reads cleanly no matter which token filled a given spot.
+	b := []byte(strings.ToLower(slogan))
+	capNext := true
+	for i := 0; i < len(b); i++ {
+		switch c := b[i]; {
+		case c == '.' || c == '!' || c == '?':
+			capNext = true
+		case c == ' ':
+			// keep looking for the start of the sentence
+		default:
+			if capNext && c >= 'a' && c <= 'z' {
+				b[i] = c - ('a' - 'A')
+			}
+			capNext = false
+		}
 	}
 
-	return slogan
+	return string(b)
 }
 
 func addCompanyLookup() {
