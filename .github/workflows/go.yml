@@ -11,7 +11,11 @@ jobs:
     strategy:
       matrix:
         go: [1.22.*]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
+        include:
+          # macos-latest is Tahoe, which requires LC_UUID (Go 1.24+)
+          - go: 1.24.*
+            os: macos-latest
     runs-on: ${{ matrix.os }}
 
     name: Go ${{ matrix.go }} ${{ matrix.os }}
