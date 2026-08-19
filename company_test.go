@@ -209,14 +209,14 @@ func ExampleSlogan() {
 	Seed(11)
 	fmt.Println(Slogan())
 
-	// Output: Style in motion.
+	// Output: Made of styrofoam.
 }
 
 func ExampleFaker_Slogan() {
 	f := New(11)
 	fmt.Println(f.Slogan())
 
-	// Output: Style in motion.
+	// Output: Made of styrofoam.
 }
 
 func TestSlogan(t *testing.T) {

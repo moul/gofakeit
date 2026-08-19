@@ -98,16 +98,17 @@ func (f *Faker) Slogan() string { return slogan(f) }
 func slogan(f *Faker) string {
 	// Pick a mad-libs style template and fill the {tokens} with random words.
 	// The templates vary in structure and length to produce slogan-like phrases
-	// rather than a fixed sentence shape.
+	// rather than a fixed sentence shape. Tokens are limited to lookups that
+	// still read like brand copy (blurb, buzzword, product*, safecolor).
 	slogan, err := generate(f, getRandValue(f, []string{"company", "slogan"}))
 	if err != nil {
 		return ""
 	}
 
-	// The {buzzword} and {blurb} word lists are capitalized, so filling them
-	// mid template leaves stray capitals that throw the reading off. Lower the
-	// whole slogan, then capitalize the first letter of each sentence so it
-	// reads cleanly no matter which token filled a given spot.
+	// Filled tokens come in mixed case, so leaving them as-is throws the
+	// reading off. Lower the whole slogan, then capitalize the first letter
+	// of each sentence so it reads cleanly no matter which token filled a
+	// given spot.
 	b := []byte(strings.ToLower(slogan))
 	capNext := true
 	for i := 0; i < len(b); i++ {
@@ -354,7 +355,7 @@ func addCompanyLookup() {
 		Display:     "Slogan",
 		Category:    "company",
 		Description: "Catchphrase or motto used by a company to represent its brand or values",
-		Example:     "Bifurcated Passion you can trust.",
+		Example:     "Made of styrofoam.",
 		Output:      "string",
 		Aliases: []string{
 			"company slogan",
