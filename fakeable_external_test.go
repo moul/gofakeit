@@ -166,12 +166,12 @@ type NestedOverrideCustom struct {
 	PtrStr       *CustomString `fake:"{name}"`
 	Bool         CustomBool    `fake:"false"`
 	Int          CustomInt     `fake:"{number:-10,1000}"`
-	Int8         CustomInt8    `fake:"{number:-10,1000}"`
+	Int8         CustomInt8    `fake:"{number:-10,10}"`
 	Int16        CustomInt16   `fake:"{number:-10,1000}"`
 	Int32        CustomInt32   `fake:"{number:-10,1000}"`
 	Int64        CustomInt64   `fake:"{number:-10,1000}"`
 	Uint         CustomUint    `fake:"{number:100,1000}"`
-	Uint8        CustomUint8   `fake:"{number:100,1000}"`
+	Uint8        CustomUint8   `fake:"{number:100,200}"`
 	Uint16       CustomUint16  `fake:"{number:100,1000}"`
 	Uint32       CustomUint32  `fake:"{number:100,1000}"`
 	Uint64       CustomUint64  `fake:"{number:100,1000}"`
@@ -681,13 +681,9 @@ func TestNestedOverrideCustom(t *testing.T) {
 	}
 
 	nonOverrideMap := map[string]string{"hello": "1", "test": "2"}
-	if len(d.MapStr) == len(nonOverrideMap) {
-		t.Logf("Map: Got the same length as the non-overriden map: %v vs %v", nonOverrideMap, d.MapStr)
-
-		for k, v := range nonOverrideMap {
-			if d.MapStr[k] == v {
-				t.Errorf("Map: Got non-overriden item %v in the slice", k)
-			}
+	for k, v := range nonOverrideMap {
+		if d.MapStr[k] == v {
+			t.Errorf("Map: Got non-overriden item %v in the map", k)
 		}
 	}
 }
@@ -728,12 +724,9 @@ func TestNestedOverrideCustomMultiple(t *testing.T) {
 			}
 
 			nonOverrideMap := map[string]string{"hello": "1", "test": "2"}
-			if len(d.MapStr) == len(nonOverrideMap) {
-				t.Logf("Map: Got the same length as the non-overriden map: %v vs %v", nonOverrideMap, d.MapStr)
-				for k, v := range nonOverrideMap {
-					if d.MapStr[k] == v {
-						t.Errorf("Map: Got non-overriden item %v in the map", k)
-					}
+			for k, v := range nonOverrideMap {
+				if d.MapStr[k] == v {
+					t.Errorf("Map: Got non-overriden item %v in the map", k)
 				}
 			}
 
