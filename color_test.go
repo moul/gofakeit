@@ -99,6 +99,24 @@ func ExampleFaker_RGBColor() {
 	// Output: [180 18 181]
 }
 
+func ExampleHSLColor() {
+	Seed(11)
+	fmt.Println(HSLColor())
+	// Output: [323 86 20]
+}
+
+func ExampleFaker_HSLColor() {
+	f := New(11)
+	fmt.Println(f.HSLColor())
+	// Output: [323 86 20]
+}
+
+func BenchmarkHSLColor(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HSLColor()
+	}
+}
+
 func BenchmarkRGBColor(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		RGBColor()
